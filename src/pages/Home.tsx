@@ -1,5 +1,17 @@
+import { AbsoluteCenter, Heading, VStack } from "@chakra-ui/react";
+import PageLink from "../components/PageLink";
+import ToggleTheme from "../components/ToggleTheme";
+
 function Home() {
-  return <h1>Home</h1>;
+  return (
+    <AbsoluteCenter>
+      <VStack gap={10}>
+        <Heading>HOME PAGE</Heading>
+        <ToggleTheme />
+        <PageLink page="/login">LOGIN</PageLink>
+      </VStack>
+    </AbsoluteCenter>
+  );
 }
 
 export default Home;
