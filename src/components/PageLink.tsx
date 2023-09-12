@@ -9,11 +9,9 @@ interface PageLinkProps {
 
 function PageLink({ page, children }: PageLinkProps) {
   return (
-    <>
-      <ChakraLink as={ReactRouterLink} to={page}>
-        {children}
-      </ChakraLink>
-    </>
+    <ChakraLink as={ReactRouterLink} to={page}>
+      {children}
+    </ChakraLink>
   );
 }
 
