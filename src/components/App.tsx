@@ -1,14 +1,10 @@
-import { useAppSelector } from "../redux/store";
-import { selectUserId } from "../redux/userSlice";
 import "../styles/App.css";
+import AppRouter from "./AppRouter";
 
 function App() {
-  const userId = useAppSelector(selectUserId);
-
   return (
     <div className="App">
-      <h1>app</h1>
-      <p>user id is {userId}</p>
+      <AppRouter />
     </div>
   );
 }
