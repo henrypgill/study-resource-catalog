@@ -1,25 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+import { User } from "../core/requests/users";
 
 interface UserState {
-  id: number;
+  current?: User | undefined;
 }
 
-const initialState: UserState = {
-  id: -1,
-};
+const initialState: UserState = {};
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logId: (state) => console.log(state.id),
-    // TODO: Add reducers
+    loginUser: (state, action: PayloadAction<User>) => {
+      state.current = action.payload;
+    },
+    logoutUser: () => {
+      return initialState;
+    },
   },
 });
 
-export const { logId } = userSlice.actions;
+export const { loginUser, logoutUser } = userSlice.actions;
 
-export const selectUserId = (state: RootState) => state.user.id;
+export const selectCurrentUser = (state: RootState) => state.user.current;
 
 export default userSlice.reducer;

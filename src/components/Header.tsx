@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 import PageLink from "./PageLink";
 import ToggleTheme from "./ToggleTheme";
+import LoginLogout from "./LoginLogout";
 
 interface HeaderProps {
   title: string;
@@ -22,10 +23,8 @@ function Header({ title }: HeaderProps) {
         <AbsoluteCenter axis="horizontal">
           <Heading>{title}</Heading>
         </AbsoluteCenter>
-        <HStack>
-          <PageLink page="/login">
-            <Button>LOGIN</Button>
-          </PageLink>
+        <HStack justifyContent="flex-end">
+          <LoginLogout />
           <ToggleTheme />
         </HStack>
       </HStack>
