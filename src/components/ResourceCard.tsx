@@ -22,7 +22,13 @@ function ResourceCard({ resource }: ResourceCardProps) {
   };
 
   return (
-    <Card as="button" onClick={handleClick} align="center" variant="filled">
+    <Card
+      minH="20em"
+      as="button"
+      onClick={handleClick}
+      align="center"
+      variant="filled"
+    >
       <CardHeader>
         <Heading size="md">{resource.title}</Heading>
       </CardHeader>

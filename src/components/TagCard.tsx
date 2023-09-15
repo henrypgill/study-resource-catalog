@@ -1,13 +1,26 @@
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps, forwardRef } from "@chakra-ui/react";
+import { ForwardedRef } from "react";
 
-interface TagCardProps {
+interface TagCardProps extends BoxProps {
   name: string;
+  onClick?: () => void;
 }
 
-function TagCard({ name }: TagCardProps) {
+const TagCard = forwardRef<TagCardProps, "div">(TagCardWithProps);
+
+function TagCardWithProps(props: TagCardProps, ref: ForwardedRef<null>) {
   return (
-    <Box padding={1} bg="teal.700" borderRadius={10}>
-      {name}
+    <Box
+      ref={ref}
+      paddingLeft={2}
+      paddingRight={2}
+      paddingTop={1}
+      paddingBottom={1}
+      bg="teal.500"
+      borderRadius={10}
+      {...props}
+    >
+      {props.name}
     </Box>
   );
 }

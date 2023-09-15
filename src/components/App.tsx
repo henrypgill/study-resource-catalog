@@ -3,7 +3,7 @@ import AppRouter from "./AppRouter";
 
 function App() {
   return (
-    <Container maxW="100vw" minH="100vh">
+    <Container maxW="100vw" height="100vh">
       <AppRouter />
     </Container>
   );
