@@ -4,11 +4,13 @@ import {
   CardFooter,
   CardHeader,
   Divider,
+  HStack,
   Heading,
   Text,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { Resource } from "../core/requests/resources";
+import ResourceTagList from "./ResourceTagList";
 
 interface ResourceCardProps {
   resource: Resource;
@@ -20,18 +22,27 @@ function ResourceCard({ resource }: ResourceCardProps) {
   };
 
   return (
-    <Card as="button" onClick={handleClick} align="center" variant="filled">
+    <Card
+      minH="20em"
+      as="button"
+      onClick={handleClick}
+      align="center"
+      variant="filled"
+    >
       <CardHeader>
         <Heading size="md">{resource.title}</Heading>
       </CardHeader>
       <CardBody>
         <Text>{resource.description}</Text>
       </CardBody>
+      <CardFooter>
+        <ResourceTagList tags={resource.tags} />
+      </CardFooter>
       <Divider />
-      <CardFooter>{JSON.stringify(resource.tags)}</CardFooter>
-      <Text alignSelf="flex-end" padding={2} color="gray">
-        {moment(resource.created_at).fromNow()}
-      </Text>
+      <HStack width="100%" padding={2} justifyContent="space-between">
+        <Heading size="sm">{resource.author_name}</Heading>
+        <Text color="gray">{moment(resource.created_at).fromNow()}</Text>
+      </HStack>
     </Card>
   );
 }
