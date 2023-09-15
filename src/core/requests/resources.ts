@@ -4,8 +4,14 @@ export interface Resource {
   id: number;
   title: string;
   description: string;
-  tags: string[];
+  author_name: string | undefined;
+  tags: Tag[];
   created_at: Date;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
 }
 
 export const getResources = async (): Promise<Resource[]> => {
