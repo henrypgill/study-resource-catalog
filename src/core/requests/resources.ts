@@ -18,3 +18,8 @@ export const getResources = async (): Promise<Resource[]> => {
   const res = await backendAPI.get("/resources");
   return res.data;
 };
+
+export const getTags = async (): Promise<Tag[]> => {
+  const res = await backendAPI.get("/tags");
+  return res.data;
+};
