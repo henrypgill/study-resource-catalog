@@ -25,10 +25,11 @@ function TagList() {
         <TagCard
           as={Button}
           key={tag.id}
-          name={tag.name}
           bg={isFiltered(tag.name) ? "twitter.600" : "twitter.900"}
           onClick={() => handleClick(tag.name)}
-        />
+        >
+          {tag.name}
+        </TagCard>
       ))}
     </Flex>
   );

@@ -10,7 +10,7 @@ function ResourceTagList({ tags }: ResourceTagListProps) {
   return (
     <Flex gap={3}>
       {tags.map((tag) => (
-        <TagCard key={tag.id} name={tag.name} />
+        <TagCard key={tag.id}>{tag.name}</TagCard>
       ))}
     </Flex>
   );
