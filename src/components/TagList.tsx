@@ -9,8 +9,10 @@ function TagList() {
   const filteredTags = useAppSelector(selectTags);
   const { data } = useTags();
 
+  const isFiltered = (name: string) => filteredTags.includes(name);
+
   const handleClick = (name: string) => {
-    if (filteredTags.includes(name)) {
+    if (isFiltered(name)) {
       dispatch(removeTag(name));
     } else {
       dispatch(addTag(name));
@@ -24,6 +26,7 @@ function TagList() {
           as={Button}
           key={tag.id}
           name={tag.name}
+          bg={isFiltered(tag.name) ? "twitter.600" : "twitter.900"}
           onClick={() => handleClick(tag.name)}
         />
       ))}
