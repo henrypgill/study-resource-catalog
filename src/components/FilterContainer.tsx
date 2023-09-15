@@ -6,7 +6,7 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import { selectSearch, updateSearch } from "../redux/filterSlice";
+import { reset, selectSearch, updateSearch } from "../redux/filterSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import TagList from "./TagList";
 
@@ -17,6 +17,8 @@ function FilterContainer() {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateSearch(e.target.value));
   };
+
+  const handleOnReset = () => dispatch(reset());
 
   return (
     <VStack
@@ -35,7 +37,9 @@ function FilterContainer() {
       </VStack>
       <VStack width="100%" gap={3}>
         <Divider />
-        <Button colorScheme="twitter">CREATE NEW RESOURCE</Button>
+        <Button onClick={handleOnReset} colorScheme="twitter">
+          RESET FILTERS
+        </Button>
       </VStack>
     </VStack>
   );

@@ -26,10 +26,13 @@ export const filterSlice = createSlice({
         (tag) => tag !== action.payload
       );
     },
+    reset: () => {
+      return initialState;
+    },
   },
 });
 
-export const { updateSearch, addTag, removeTag } = filterSlice.actions;
+export const { reset, updateSearch, addTag, removeTag } = filterSlice.actions;
 
 export const selectSearch = (state: RootState) => state.filter.searchTerm;
 export const selectTags = (state: RootState) => state.filter.selectedTags;
