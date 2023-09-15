@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import FilterContainer from "../components/FilterCard";
+import FilterContainer from "../components/FilterContainer";
 import Header from "../components/Header";
 import ResourceList from "../components/ResourceList";
 
