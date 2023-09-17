@@ -28,3 +28,7 @@ export function combineFilters<T>(...filters: searchFilter<T>[]) {
       .map((filter) => filter(filterTarget))
       .some((result) => result === true);
 }
+
+export function toTitleCase(str: string) {
+  return str.replace(/\b\S/g, (char) => char.toUpperCase());
+}
