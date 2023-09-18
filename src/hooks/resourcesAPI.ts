@@ -1,14 +1,27 @@
-import { useQuery } from "@tanstack/react-query";
-import { getResources, getTags } from "../core/requests/resources";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getResources,
+  getTags,
+  postResource,
+} from "../core/requests/resources";
 
 export const useResources = () => {
+  const queryClient = useQueryClient();
+
   const query = useQuery({
     queryKey: ["resources"],
     queryFn: getResources,
     initialData: [],
   });
 
-  return { ...query };
+  const mutation = useMutation({
+    mutationFn: postResource,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["resources"] });
+    },
+  });
+
+  return { ...query, mutation };
 };
 
 export const useTags = () => {
