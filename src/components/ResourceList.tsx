@@ -1,10 +1,10 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { searchTags, searchTitle } from "../core/utils";
 import { useResources } from "../hooks/resourcesAPI";
 import { selectSearch, selectTags } from "../redux/filterSlice";
 import { useAppSelector } from "../redux/store";
 import ResourceCard from "./ResourceCard";
-import { useMemo } from "react";
 
 function ResourceList() {
   const { data } = useResources();
