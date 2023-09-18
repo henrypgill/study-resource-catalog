@@ -1,8 +1,12 @@
 import { AddIcon } from "@chakra-ui/icons";
 import {
   Button,
+  Divider,
+  Flex,
   FormControl,
   FormLabel,
+  HStack,
+  Heading,
   IconButton,
   Input,
   Modal,
@@ -21,6 +25,7 @@ import { User } from "../core/requests/users";
 import { useRecommendationOpts } from "../hooks/recommendationAPI";
 import { useResources } from "../hooks/resourcesAPI";
 import {
+  resetForm,
   selectForm,
   updateDescription,
   updateRecommendation,
@@ -30,8 +35,10 @@ import {
 } from "../redux/resourceFormSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { selectCurrentUser } from "../redux/userSlice";
+import { isValidForm } from "../core/validate";
 
 function CreateResource() {
+  const disptach = useAppDispatch();
   const { isOpen, onClose, getButtonProps } = useDisclosure();
   const { mutation } = useResources();
 
@@ -45,7 +52,13 @@ function CreateResource() {
       ...resourceForm,
       stage_id: 1,
     };
-    mutation.mutate(resource);
+    if (!isValidForm(resource)) {
+      alert("Invalid Form!");
+    } else {
+      mutation.mutate(resource);
+      onClose();
+      disptach(resetForm());
+    }
   };
 
   return (
@@ -61,16 +74,19 @@ function CreateResource() {
         {...buttonProps}
       ></IconButton>
 
-      <Modal size="3xl" isOpen={isOpen} onClose={onClose}>
+      <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalHeader>Submit A New Resource</ModalHeader>
+          <ModalHeader alignSelf="center">
+            <Heading>Submit A New Resource</Heading>
+          </ModalHeader>
+          <Divider />
           <ModalBody>
             <CreateResourceForm />
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="cyan" onClick={onSubmit}>
+          <ModalFooter alignSelf="center">
+            <Button fontSize="1.5em" colorScheme="cyan" onClick={onSubmit}>
               Submit
             </Button>
           </ModalFooter>
@@ -87,23 +103,25 @@ function CreateResourceForm() {
   const { data } = useRecommendationOpts();
 
   return (
-    <>
-      <FormControl>
-        <FormLabel>Title</FormLabel>
-        <Input
-          onChange={(e) => dispatch(updateTitle(e.target.value))}
-          value={form.title}
-          type="text"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel>URL</FormLabel>
-        <Input
-          onChange={(e) => dispatch(updateUrl(e.target.value))}
-          value={form.url}
-          type="url"
-        />
-      </FormControl>
+    <Flex wrap="wrap" justifyContent="center" gap="2em">
+      <HStack width="100%" justifyContent="space-between">
+        <FormControl>
+          <FormLabel>Title</FormLabel>
+          <Input
+            onChange={(e) => dispatch(updateTitle(e.target.value))}
+            value={form.title}
+            type="text"
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>URL</FormLabel>
+          <Input
+            onChange={(e) => dispatch(updateUrl(e.target.value))}
+            value={form.url}
+            type="url"
+          />
+        </FormControl>
+      </HStack>
       <FormControl>
         <FormLabel>Description</FormLabel>
         <Textarea
@@ -111,32 +129,38 @@ function CreateResourceForm() {
           value={form.description}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel>Recommendation</FormLabel>
-        <Select
-          defaultValue="default"
-          onChange={(e) =>
-            dispatch(updateRecommendationId(Number(e.target.value)))
-          }
-        >
-          <option value="default" disabled>
-            -- Select Recommendation Reason --
-          </option>
-          {data?.map((opt) => (
-            <option key={opt.id} value={opt.id}>
-              {opt.description}
+      <HStack
+        width="100%"
+        alignItems="flex-start"
+        justifyContent="space-between"
+      >
+        <FormControl>
+          <FormLabel>Recommendation</FormLabel>
+          <Select
+            defaultValue="default"
+            onChange={(e) =>
+              dispatch(updateRecommendationId(Number(e.target.value)))
+            }
+          >
+            <option value="default" disabled>
+              -- Select Recommendation Reason --
             </option>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl>
-        <FormLabel>Recommendation Notes</FormLabel>
-        <Textarea
-          onChange={(e) => dispatch(updateRecommendation(e.target.value))}
-          value={form.recommendation.description}
-        />
-      </FormControl>
-    </>
+            {data?.map((opt) => (
+              <option key={opt.id} value={opt.id}>
+                {opt.description}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Recommendation Notes</FormLabel>
+          <Textarea
+            onChange={(e) => dispatch(updateRecommendation(e.target.value))}
+            value={form.recommendation.description}
+          />
+        </FormControl>
+      </HStack>
+    </Flex>
   );
 }
 
