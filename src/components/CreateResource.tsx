@@ -16,7 +16,9 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ResourceCandidate } from "../core/requests/resources";
 import { User } from "../core/requests/users";
+import { useRecommendationOpts } from "../hooks/recommendationAPI";
 import { useResources } from "../hooks/resourcesAPI";
 import {
   selectForm,
@@ -28,7 +30,6 @@ import {
 } from "../redux/resourceFormSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { selectCurrentUser } from "../redux/userSlice";
-import { useRecommendationOpts } from "../hooks/recommendationAPI";
 
 function CreateResource() {
   const { isOpen, onClose, getButtonProps } = useDisclosure();
@@ -39,7 +40,12 @@ function CreateResource() {
   const user = useAppSelector(selectCurrentUser) as User;
 
   const onSubmit = () => {
-    mutation.mutate({ owner_id: user.id, ...resourceForm });
+    const resource: ResourceCandidate = {
+      owner_id: user.id,
+      ...resourceForm,
+      stage_id: 1,
+    };
+    mutation.mutate(resource);
   };
 
   return (
@@ -60,7 +66,9 @@ function CreateResource() {
         <ModalContent>
           <ModalCloseButton />
           <ModalHeader>Submit A New Resource</ModalHeader>
-          <CreateResourceBody />
+          <ModalBody>
+            <CreateResourceForm />
+          </ModalBody>
           <ModalFooter>
             <Button colorScheme="cyan" onClick={onSubmit}>
               Submit
@@ -72,14 +80,14 @@ function CreateResource() {
   );
 }
 
-function CreateResourceBody() {
+function CreateResourceForm() {
   const dispatch = useAppDispatch();
   const form = useAppSelector(selectForm);
 
   const { data } = useRecommendationOpts();
 
   return (
-    <ModalBody>
+    <>
       <FormControl>
         <FormLabel>Title</FormLabel>
         <Input
@@ -128,7 +136,7 @@ function CreateResourceBody() {
           value={form.recommendation.description}
         />
       </FormControl>
-    </ModalBody>
+    </>
   );
 }
 
