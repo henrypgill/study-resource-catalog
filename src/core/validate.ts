@@ -1,6 +1,7 @@
 import { ResourceCandidate } from "./requests/resources";
 
 export function isValidForm(resource: ResourceCandidate): boolean {
+  // TODO: check length constraints
   if (resource.title === "") return false;
   if (resource.url === "") return false;
   if (resource.description === "") return false;
