@@ -16,12 +16,11 @@ export const useResources = () => {
 
   const mutation = useMutation({
     mutationFn: postResource,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["resources"] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["resources"] }),
+    onError: () => alert("Error submitting resource."),
   });
 
-  return { ...query, mutation };
+  return { query, mutation };
 };
 
 export const useTags = () => {

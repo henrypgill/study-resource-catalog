@@ -6,7 +6,7 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import { reset, selectSearch, updateSearch } from "../redux/filterSlice";
+import { resetFilters, selectSearch, updateSearch } from "../redux/filterSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import TagList from "./TagList";
 
@@ -18,7 +18,7 @@ function FilterContainer() {
     dispatch(updateSearch(e.target.value));
   };
 
-  const handleOnReset = () => dispatch(reset());
+  const handleOnReset = () => dispatch(resetFilters());
 
   return (
     <VStack

@@ -18,7 +18,7 @@ export interface ResourceCandidate {
   stage_id: number | null;
   tag_ids: number[];
   recommendation: {
-    recommendation_type_id: number;
+    recommendation_type_id: number | null; // TODO: remove null
     description: string;
   };
 }
@@ -28,6 +28,11 @@ export interface Tag {
   name: string;
 }
 
+export interface Recommendation {
+  id: number;
+  description: string;
+}
+
 export const getResources = async (): Promise<Resource[]> => {
   const res = await backendAPI.get("/resources");
   return res.data;
@@ -35,6 +40,11 @@ export const getResources = async (): Promise<Resource[]> => {
 
 export const getTags = async (): Promise<Tag[]> => {
   const res = await backendAPI.get("/tags");
+  return res.data;
+};
+
+export const getRecommendationOpts = async (): Promise<Recommendation[]> => {
+  const res = await backendAPI.get("/recommendations");
   return res.data;
 };
 

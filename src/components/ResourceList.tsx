@@ -7,7 +7,9 @@ import { useAppSelector } from "../redux/store";
 import ResourceCard from "./ResourceCard";
 
 function ResourceList() {
-  const { data } = useResources();
+  const {
+    query: { data },
+  } = useResources();
   const search = useAppSelector(selectSearch);
   const selectedTags = useAppSelector(selectTags);
 
