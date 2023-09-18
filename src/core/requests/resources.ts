@@ -16,7 +16,7 @@ export interface ResourceCandidate {
   url: string;
   description: string;
   stage_id: number | null;
-  tag_ids: number[];
+  tag_names: string[];
   recommendation: {
     recommendation_type_id: number | null; // TODO: remove null
     description: string;
