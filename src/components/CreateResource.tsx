@@ -1,8 +1,8 @@
 import { AddIcon } from "@chakra-ui/icons";
 import {
+  Flex as Box,
   Button,
   Divider,
-  Flex,
   FormControl,
   FormLabel,
   HStack,
@@ -18,13 +18,18 @@ import {
   ModalOverlay,
   Select,
   Textarea,
+  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
 import { ResourceCandidate } from "../core/requests/resources";
 import { User } from "../core/requests/users";
+import { isValidForm } from "../core/validate";
 import { useRecommendationOpts } from "../hooks/recommendationAPI";
-import { useResources } from "../hooks/resourcesAPI";
+import { useResources, useTags } from "../hooks/resourcesAPI";
 import {
+  addFormTag,
+  removeFormTag,
   resetForm,
   selectForm,
   updateDescription,
@@ -35,10 +40,10 @@ import {
 } from "../redux/resourceFormSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { selectCurrentUser } from "../redux/userSlice";
-import { isValidForm } from "../core/validate";
+import TagCard from "./TagCard";
 
 function CreateResource() {
-  const disptach = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { isOpen, onClose, getButtonProps } = useDisclosure();
   const { mutation } = useResources();
 
@@ -57,7 +62,7 @@ function CreateResource() {
     } else {
       mutation.mutate(resource);
       onClose();
-      disptach(resetForm());
+      dispatch(resetForm());
     }
   };
 
@@ -85,6 +90,7 @@ function CreateResource() {
           <ModalBody>
             <CreateResourceForm />
           </ModalBody>
+          <Divider padding="1em" />
           <ModalFooter alignSelf="center">
             <Button fontSize="1.5em" colorScheme="cyan" onClick={onSubmit}>
               Submit
@@ -102,8 +108,12 @@ function CreateResourceForm() {
 
   const { data } = useRecommendationOpts();
 
+  const onAddTag = (tag: string) => {
+    dispatch(addFormTag(tag));
+  };
+
   return (
-    <Flex wrap="wrap" justifyContent="center" gap="2em">
+    <Box wrap="wrap" justifyContent="center" gap="2em">
       <HStack width="100%" justifyContent="space-between">
         <FormControl>
           <FormLabel>Title</FormLabel>
@@ -160,7 +170,77 @@ function CreateResourceForm() {
           />
         </FormControl>
       </HStack>
-    </Flex>
+      <HStack
+        width="100%"
+        alignItems="flex-start"
+        justifyContent="space-between"
+      >
+        <FormControl>
+          <FormLabel>Add Tags</FormLabel>
+          <AddTag onClick={onAddTag} />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Selected Tags</FormLabel>
+          <Box alignSelf="flex-start" wrap="wrap" gap={2}>
+            {form.tag_names.map((tag, index) => (
+              <TagCard
+                as={Button}
+                key={index}
+                onClick={() => dispatch(removeFormTag(tag))}
+              >
+                {tag}
+              </TagCard>
+            ))}
+          </Box>
+        </FormControl>
+      </HStack>
+    </Box>
+  );
+}
+
+interface AddTagProps {
+  onClick: (tag: string) => void;
+}
+
+function AddTag({ onClick }: AddTagProps) {
+  const [input, setInput] = useState("");
+  const { data } = useTags();
+  const { tag_names: formTags } = useAppSelector(selectForm);
+
+  const tags = useMemo(
+    () =>
+      data
+        .map((tag) => tag.name.toLowerCase())
+        .filter((tag) => tag.includes(input.toLowerCase()))
+        .filter((tag) => !formTags.includes(tag)),
+    [input, data, formTags]
+  );
+
+  return (
+    <VStack>
+      <Input
+        value={input}
+        onChange={(e) => setInput(e.target.value.toLowerCase())}
+      />
+      <Box
+        height="3em"
+        overflowY="scroll"
+        alignSelf="flex-start"
+        wrap="wrap"
+        gap={2}
+      >
+        {input && !tags.includes(input) && (
+          <TagCard as={Button} onClick={() => onClick(input)} bg="twitter.900">
+            Create '{input}'
+          </TagCard>
+        )}
+        {tags.map((tag, index) => (
+          <TagCard as={Button} key={index} onClick={() => onClick(tag)}>
+            {tag}
+          </TagCard>
+        ))}
+      </Box>
+    </VStack>
   );
 }
 
