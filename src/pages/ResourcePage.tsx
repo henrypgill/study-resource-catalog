@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import Loading from "../components/Loading";
 import ResourceDataTable from "../components/ResourceDataTable";
 import { useResourceDetail } from "../hooks/resourcesAPI";
+import UserLikes from "../components/UserLikes";
+import { SimpleGrid } from "@chakra-ui/react";
 
 function ResourcePage() {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +14,12 @@ function ResourcePage() {
     <>
       {isLoading && <Loading />}
       <Header title="RESOURCE" />
-      {data && <ResourceDataTable resource={data} />}
+      {data && (
+        <SimpleGrid templateColumns={{ md: "1fr", lg: "1fr 2fr" }}>
+          <UserLikes />
+          <ResourceDataTable resource={data} />
+        </SimpleGrid>
+      )}
     </>
   );
 }
