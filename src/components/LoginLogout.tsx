@@ -20,7 +20,11 @@ function LoginLogout() {
   };
 
   if (currentUser !== undefined) {
-    return <Button onClick={handleLogout}>LOGOUT</Button>;
+    return (
+      <Button onClick={handleLogout}>
+        LOGOUT | {toTitleCase(currentUser.name)}
+      </Button>
+    );
   }
 
   return (
