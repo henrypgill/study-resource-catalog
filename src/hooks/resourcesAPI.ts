@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  getResourceDetail,
   getResources,
   getTags,
   postResource,
@@ -28,6 +29,15 @@ export const useTags = () => {
     queryKey: ["tags"],
     queryFn: getTags,
     initialData: [],
+  });
+
+  return { ...query };
+};
+
+export const useResourceDetail = (id: number | string) => {
+  const query = useQuery({
+    queryKey: ["resource", "detail", id],
+    queryFn: () => getResourceDetail(id),
   });
 
   return { ...query };

@@ -23,6 +23,26 @@ export interface ResourceCandidate {
   };
 }
 
+// TODO: Review this type, missing likes
+export interface ResourceDetail {
+  id: number;
+  title: string;
+  description: string;
+  author_name: string | undefined;
+  url: string;
+  created_at: Date;
+  owner_name: string;
+  comments: Comment[];
+}
+
+export interface Comment {
+  id: number;
+  user_id: number;
+  resource_id: number;
+  content: string;
+  created_at: Date;
+}
+
 export interface Tag {
   id: number;
   name: string;
@@ -35,6 +55,13 @@ export interface Recommendation {
 
 export const getResources = async (): Promise<Resource[]> => {
   const res = await backendAPI.get("/resources");
+  return res.data;
+};
+
+export const getResourceDetail = async (
+  id: number | string
+): Promise<ResourceDetail> => {
+  const res = await backendAPI.get(`/resources/full/${id}`);
   return res.data;
 };
 
