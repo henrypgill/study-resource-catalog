@@ -1,4 +1,5 @@
 import { backendAPI } from "./setupAxios";
+import { User } from "./users";
 
 export interface Resource {
   id: number;
@@ -23,7 +24,6 @@ export interface ResourceCandidate {
   };
 }
 
-// TODO: Review this type, missing likes
 export interface ResourceDetail {
   id: number;
   title: string;
@@ -32,13 +32,14 @@ export interface ResourceDetail {
   url: string;
   created_at: Date;
   owner_name: string;
-  comments: Comment[];
+  recommendation_type: string;
+  recommendation_content: string;
 }
 
 export interface Comment {
   id: number;
-  user_id: number;
   resource_id: number;
+  user: User;
   content: string;
   created_at: Date;
 }
