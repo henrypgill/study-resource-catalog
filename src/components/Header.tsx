@@ -5,9 +5,9 @@ import {
   HStack,
   Heading,
 } from "@chakra-ui/react";
+import LoginLogout from "./LoginLogout";
 import PageLink from "./PageLink";
 import ToggleTheme from "./ToggleTheme";
-import LoginLogout from "./LoginLogout";
 
 interface HeaderProps {
   title: string;
