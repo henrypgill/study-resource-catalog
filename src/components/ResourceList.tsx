@@ -1,13 +1,16 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { searchTags, searchTitle } from "../core/utils";
 import { useResources } from "../hooks/resourcesAPI";
 import { selectSearch, selectTags } from "../redux/filterSlice";
 import { useAppSelector } from "../redux/store";
 import ResourceCard from "./ResourceCard";
-import { useMemo } from "react";
+import moment from "moment";
 
 function ResourceList() {
-  const { data } = useResources();
+  const {
+    query: { data },
+  } = useResources();
   const search = useAppSelector(selectSearch);
   const selectedTags = useAppSelector(selectTags);
 
@@ -15,7 +18,10 @@ function ResourceList() {
     const filterTitle = searchTitle(search);
     const filterTags = searchTags(selectedTags);
 
-    return data.filter(filterTitle).filter(filterTags);
+    return data
+      .filter(filterTitle)
+      .filter(filterTags)
+      .sort((a, b) => moment(b.created_at).diff(a.created_at));
   }, [data, search, selectedTags]);
 
   return (

@@ -41,7 +41,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
       <Divider />
       <HStack width="100%" padding={2} justifyContent="space-between">
         <Heading size="sm">{resource.author_name}</Heading>
-        <Text color="gray">{moment(resource.created_at).fromNow()}</Text>
+        <Text color="gray">{moment.utc(resource.created_at).fromNow()}</Text>
       </HStack>
     </Card>
   );
