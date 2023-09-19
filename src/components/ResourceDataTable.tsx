@@ -9,7 +9,16 @@ interface ResourceDataTableProps {
 
 function ResourceDataTable({ resource }: ResourceDataTableProps) {
   return (
-    <TableContainer whiteSpace="pre-wrap">
+    <TableContainer
+      whiteSpace="pre-wrap"
+      height="85vh"
+      scrollMargin={10}
+      marginTop="2em"
+      marginBottom="2em"
+      paddingRight="2em"
+      paddingLeft="2em"
+      overflowY={{ md: "auto", lg: "scroll" }}
+    >
       <Table size="lg">
         <Tbody>
           <Tr>

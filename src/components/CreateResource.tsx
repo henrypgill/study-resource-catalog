@@ -77,7 +77,7 @@ function CreateResource() {
         colorScheme="teal"
         fontSize="2em"
         {...buttonProps}
-      ></IconButton>
+      />
 
       <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
