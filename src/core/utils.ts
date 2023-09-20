@@ -1,4 +1,5 @@
 import { Resource } from "./requests/resources";
+import moment from "moment";
 
 type searchFilter<T> = (item: T) => boolean;
 
@@ -8,6 +9,15 @@ export function searchTitle(subStr: string): searchFilter<Resource> {
     const name = content.title.toLowerCase();
 
     return name.includes(searchStr);
+  };
+}
+
+export function searchDescription(subStr: string): searchFilter<Resource> {
+  return (content) => {
+    const searchStr = subStr.toLowerCase();
+    const description = content.description.toLowerCase();
+
+    return description.includes(searchStr);
   };
 }
 
@@ -31,4 +41,8 @@ export function combineFilters<T>(...filters: searchFilter<T>[]) {
 
 export function toTitleCase(str: string) {
   return str.replace(/\b\S/g, (char) => char.toUpperCase());
+}
+
+export function sortByCreatedAt(a: Resource, b: Resource) {
+  return moment(b.created_at).diff(a.created_at);
 }
