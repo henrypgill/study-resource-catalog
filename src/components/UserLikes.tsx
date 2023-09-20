@@ -1,50 +1,47 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button, HStack, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { useResourceLikes } from "../hooks/resourcesAPI";
 import { useAppSelector } from "../redux/store";
 import { selectCurrentUser } from "../redux/userSlice";
 
 function UserLikes() {
-  //@ts-ignore
   const { id: resourceId } = useParams<{ id: string }>();
-  //@ts-ignore
   const user = useAppSelector(selectCurrentUser);
+  const { data, isLoading, isFetching } = useResourceLikes(resourceId);
 
-  // TODO: fetch like count
-  const [likes, setLikes] = useState(5);
-  const [isLiked, setIsLiked] = useState(false);
+  const isLiked = useMemo(
+    () => data?.some((like) => like.user_id === user?.id),
+    [data, user]
+  );
 
-  // TODO: temp state until fetching
   const handleLike = () => {
-    if (isLiked) {
-      setIsLiked(false);
-      setLikes((prev) => prev - 1);
-    } else {
-      setIsLiked(true);
-      setLikes((prev) => prev + 1);
-    }
+    // TODO: Add mutation to toggle a user
   };
+
+  if (isLoading) return <Text>Loading...</Text>;
 
   return (
     <HStack
       justifyContent="space-between"
-      alignItems="flex-start"
-      height="85vh"
+      alignItems="center"
       scrollMargin={10}
-      marginTop="2em"
-      marginBottom="2em"
       paddingRight="2em"
       paddingLeft="2em"
+      width="100%"
       overflowY={{ md: "auto", lg: "scroll" }}
     >
-      <Text>Likes: {likes}</Text>
-      <Button
-        onClick={handleLike}
-        rightIcon={isLiked ? <CloseIcon /> : <CheckIcon />}
-      >
-        {isLiked ? "Remove Like" : "Add Like"}
-      </Button>
+      <Text fontSize="xl">Likes: {data?.length}</Text>
+      {user && (
+        <Button
+          isDisabled={isFetching}
+          onClick={handleLike}
+          rightIcon={isLiked ? <CloseIcon /> : <CheckIcon />}
+        >
+          {isLiked ? "Remove Like" : "Add Like"}
+        </Button>
+      )}
     </HStack>
   );
 }

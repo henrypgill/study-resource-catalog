@@ -5,7 +5,7 @@ export const useUsers = () => {
   const query = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
-    initialData: [],
+    staleTime: Infinity,
   });
 
   return { ...query };

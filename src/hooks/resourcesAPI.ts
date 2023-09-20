@@ -1,4 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getComments, postComment } from "../core/requests/comments";
+import { getLikes } from "../core/requests/likes";
 import {
   getResourceDetail,
   getResources,
@@ -28,10 +30,10 @@ export const useTags = () => {
   const query = useQuery({
     queryKey: ["tags"],
     queryFn: getTags,
-    initialData: [],
+    staleTime: Infinity,
   });
 
-  return { ...query };
+  return query;
 };
 
 export const useResourceDetail = (id: number | string) => {
@@ -40,5 +42,34 @@ export const useResourceDetail = (id: number | string) => {
     queryFn: () => getResourceDetail(id),
   });
 
-  return { ...query };
+  return query;
+};
+
+export const useResourceLikes = (resourceId: number | string) => {
+  const query = useQuery({
+    queryKey: ["resource", "detail", "likes", resourceId],
+    queryFn: () => getLikes(resourceId),
+  });
+
+  return query;
+};
+
+export const useResourceComments = (resourceId: number | string) => {
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
+    queryKey: ["resource", "detail", "comments", resourceId],
+    queryFn: () => getComments(resourceId),
+  });
+
+  const mutation = useMutation({
+    mutationFn: postComment,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["resource", "detail", "comments", resourceId],
+      }),
+    onError: () => alert("Error sending comment."),
+  });
+
+  return { query, mutation };
 };

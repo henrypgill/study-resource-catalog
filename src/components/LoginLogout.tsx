@@ -11,6 +11,8 @@ function LoginLogout() {
   const { data } = useUsers();
 
   const handleOnLogin = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (!data) return;
+
     const selectedUser = data[parseInt(e.target.value)];
     dispatch(loginUser(selectedUser));
   };

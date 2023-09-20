@@ -37,15 +37,15 @@ function ResourceDataTable({ resource }: ResourceDataTableProps) {
           </Tr>
           <Tr>
             <Td>Recommendation:</Td>
-            <Td>{resource.recommendation_type}</Td>
+            <Td>{resource.recommendation.recommendation_type}</Td>
           </Tr>
           <Tr>
             <Td>Notes:</Td>
-            <Td>{resource.recommendation_content}</Td>
+            <Td>{resource.recommendation.content}</Td>
           </Tr>
           <Tr>
             <Td>Submitted By:</Td>
-            <Td>{toTitleCase(resource.owner_name)}</Td>
+            <Td>{toTitleCase(resource.owner.name)}</Td>
           </Tr>
         </Tbody>
       </Table>
