@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Home from "../pages/Home";
 import ResourcePage from "../pages/ResourcePage";
+import StudyList from "../pages/StudyList";
 
 function AppRouter() {
   return (
@@ -8,6 +9,9 @@ function AppRouter() {
       <Switch>
         <Route path="/resource/:id">
           <ResourcePage />
+        </Route>
+        <Route path="/study-list">
+          <StudyList />
         </Route>
         <Route path="/">
           <Home />
