@@ -1,14 +1,19 @@
 import { Button, Select } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useMemo } from "react";
 import { toTitleCase } from "../core/utils";
 import { useUsers } from "../hooks/usersAPI";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { selectCurrentUser, loginUser, logoutUser } from "../redux/userSlice";
+import { loginUser, logoutUser, selectCurrentUser } from "../redux/userSlice";
 
 function LoginLogout() {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const { data } = useUsers();
+
+  const userNames = useMemo(() => {
+    if (!data) return;
+    return data.map((user) => ({ ...user, name: toTitleCase(user.name) }));
+  }, [data]);
 
   const handleOnLogin = (e: ChangeEvent<HTMLSelectElement>) => {
     if (!data) return;
@@ -34,9 +39,9 @@ function LoginLogout() {
       <option disabled value="default">
         Select User
       </option>
-      {data?.map((user, index) => (
+      {userNames?.map((user, index) => (
         <option key={user.id} value={index}>
-          {toTitleCase(user.name)}
+          {user.name}
         </option>
       ))}
     </Select>
