@@ -1,5 +1,5 @@
-import { Resource } from "./requests/resources";
 import moment from "moment";
+import { Resource } from "./requests/resources";
 
 type searchFilter<T> = (item: T) => boolean;
 
@@ -45,4 +45,8 @@ export function toTitleCase(str: string) {
 
 export function sortByCreatedAt(a: Resource, b: Resource) {
   return moment(b.created_at).diff(a.created_at);
+}
+
+export function timeFromNow(time: Date): string {
+  return moment(time).utc(true).fromNow();
 }

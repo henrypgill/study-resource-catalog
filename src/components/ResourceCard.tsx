@@ -9,8 +9,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import moment from "moment";
 import { Resource } from "../core/requests/resources";
+import { timeFromNow } from "../core/utils";
 import PageLink from "./PageLink";
 import ResourceTagList from "./ResourceTagList";
 
@@ -36,7 +36,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
       <Divider />
       <HStack width="100%" padding={2} justifyContent="space-between">
         <Heading size="sm">{resource.author_name}</Heading>
-        <Text color="gray">{moment.utc(resource.created_at).fromNow()}</Text>
+        <Text color="gray">{timeFromNow(resource.created_at)}</Text>
       </HStack>
     </Card>
   );
