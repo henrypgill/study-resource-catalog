@@ -22,7 +22,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
-import { ResourceCandidate } from "../core/requests/resources";
+import { ResourceCandidate, Tag } from "../core/requests/resources";
 import { User } from "../core/requests/users";
 import { isValidForm } from "../core/validate";
 import { useRecommendationOpts } from "../hooks/recommendationAPI";
@@ -53,8 +53,8 @@ function CreateResource() {
 
   const onSubmit = () => {
     const resource: ResourceCandidate = {
-      owner_id: user.id,
       ...resourceForm,
+      owner_id: user.id,
       stage_id: 1,
     };
     if (!isValidForm(resource)) {
@@ -77,7 +77,7 @@ function CreateResource() {
         colorScheme="teal"
         fontSize="2em"
         {...buttonProps}
-      ></IconButton>
+      />
 
       <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -166,7 +166,7 @@ function CreateResourceForm() {
           <FormLabel>Recommendation Notes</FormLabel>
           <Textarea
             onChange={(e) => dispatch(updateRecommendation(e.target.value))}
-            value={form.recommendation.description}
+            value={form.recommendation_content}
           />
         </FormControl>
       </HStack>
@@ -209,7 +209,7 @@ function AddTag({ onClick }: AddTagProps) {
 
   const tags = useMemo(
     () =>
-      data
+      (data as Tag[])
         .map((tag) => tag.name.toLowerCase())
         .filter((tag) => tag.includes(input.toLowerCase()))
         .filter((tag) => !formTags.includes(tag)),

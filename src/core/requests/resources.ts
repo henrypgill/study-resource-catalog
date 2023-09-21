@@ -1,4 +1,5 @@
 import { backendAPI } from "./setupAxios";
+import { User } from "./users";
 
 export interface Resource {
   id: number;
@@ -10,17 +11,38 @@ export interface Resource {
 }
 
 export interface ResourceCandidate {
-  owner_id: number;
   title: string;
-  author_id: number | null;
+  author_id?: number;
   url: string;
   description: string;
-  stage_id: number | null;
+  stage_id?: number;
+  owner_id: number;
+  recommendation_type_id: number;
+  recommendation_content: string;
   tag_names: string[];
+}
+
+export interface ResourceDetail {
+  id: number;
+  title: string;
+  // author: {
+  //   id: number | null,
+  //   name: string | null,
+  // }
+  url: string;
+  description: string;
+  created_at: Date;
+  // cohort_stage: {
+  //   id: number,
+  //   name: string
+  // }
   recommendation: {
-    recommendation_type_id: number | null;
-    description: string;
+    recommendation_type_id: number;
+    recommendation_type: string;
+    content: string;
   };
+  owner: User;
+  tags: Tag[];
 }
 
 export interface Tag {
@@ -32,9 +54,15 @@ export interface Recommendation {
   id: number;
   description: string;
 }
-
 export const getResources = async (): Promise<Resource[]> => {
   const res = await backendAPI.get("/resources");
+  return res.data;
+};
+
+export const getResourceDetail = async (
+  id: number | string
+): Promise<ResourceDetail> => {
+  const res = await backendAPI.get(`/resources/${id}`);
   return res.data;
 };
 

@@ -1,27 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+import { ResourceCandidate } from "../core/requests/resources";
 
-export interface ResourceFormState {
-  title: string;
-  author_id: number | null;
-  url: string;
-  description: string;
-  stage_id: number | null;
-  tag_names: string[];
-  recommendation: {
-    recommendation_type_id: number | null;
-    description: string;
-  };
-}
+type ResourceFormState = ResourceCandidate;
 
 const initialState: ResourceFormState = {
   title: "",
-  author_id: null,
   url: "",
   description: "",
-  stage_id: null,
   tag_names: [],
-  recommendation: { recommendation_type_id: null, description: "" },
+  owner_id: -1,
+  recommendation_type_id: -1,
+  recommendation_content: "",
 };
 
 export const resourceFormSlice = createSlice({
@@ -38,10 +28,10 @@ export const resourceFormSlice = createSlice({
       state.description = action.payload;
     },
     updateRecommendationId: (state, action: PayloadAction<number>) => {
-      state.recommendation.recommendation_type_id = action.payload;
+      state.recommendation_type_id = action.payload;
     },
     updateRecommendation: (state, action: PayloadAction<string>) => {
-      state.recommendation.description = action.payload;
+      state.recommendation_content = action.payload;
     },
     addFormTag: (state, action: PayloadAction<string>) => {
       if (!state.tag_names.includes(action.payload)) {

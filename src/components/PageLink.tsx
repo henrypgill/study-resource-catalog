@@ -9,7 +9,7 @@ interface PageLinkProps {
 
 function PageLink({ page, children }: PageLinkProps) {
   return (
-    <ChakraLink as={ReactRouterLink} to={page}>
+    <ChakraLink as={ReactRouterLink} to={page} width="100%">
       {children}
     </ChakraLink>
   );

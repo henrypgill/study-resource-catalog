@@ -21,7 +21,7 @@ function TagList() {
 
   return (
     <Flex overflowY="scroll" wrap="wrap" padding={3} gap={3}>
-      {data.map((tag) => (
+      {data?.map((tag) => (
         <TagCard
           as={Button}
           key={tag.id}
