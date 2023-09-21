@@ -9,7 +9,10 @@ import { selectCurrentUser } from "../redux/userSlice";
 function UserLikes() {
   const { id: resourceId } = useParams<{ id: string }>();
   const user = useAppSelector(selectCurrentUser);
-  const { data, isLoading, isFetching } = useResourceLikes(resourceId);
+  const {
+    query: { data, isLoading, isFetching },
+    mutation,
+  } = useResourceLikes(resourceId);
 
   const isLiked = useMemo(
     () => data?.some((like) => like.user_id === user?.id),
@@ -17,7 +20,8 @@ function UserLikes() {
   );
 
   const handleLike = () => {
-    // TODO: Add mutation to toggle a user
+    if (!user) return;
+    mutation.mutate({ resourceId, userId: user.id });
   };
 
   if (isLoading) return <Text>Loading...</Text>;
@@ -30,13 +34,13 @@ function UserLikes() {
       paddingRight="2em"
       paddingLeft="2em"
       width="100%"
-      overflowY={{ md: "auto", lg: "scroll" }}
     >
       <Text fontSize="xl">Likes: {data?.length}</Text>
       {user && (
         <Button
           isDisabled={isFetching}
           onClick={handleLike}
+          padding={6}
           rightIcon={isLiked ? <CloseIcon /> : <CheckIcon />}
         >
           {isLiked ? "Remove Like" : "Add Like"}

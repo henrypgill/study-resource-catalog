@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getComments, postComment } from "../core/requests/comments";
-import { getLikes } from "../core/requests/likes";
+import { getLikes, patchLikes } from "../core/requests/likes";
 import {
   getResourceDetail,
   getResources,
@@ -46,12 +46,23 @@ export const useResourceDetail = (id: number | string) => {
 };
 
 export const useResourceLikes = (resourceId: number | string) => {
+  const queryClient = useQueryClient();
+
   const query = useQuery({
     queryKey: ["resource", "detail", "likes", resourceId],
     queryFn: () => getLikes(resourceId),
   });
 
-  return query;
+  const mutation = useMutation({
+    mutationFn: patchLikes,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["resource", "detail", "likes", resourceId],
+      }),
+    onError: () => alert("Error updating likes."),
+  });
+
+  return { query, mutation };
 };
 
 export const useResourceComments = (resourceId: number | string) => {

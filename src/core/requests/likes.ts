@@ -11,3 +11,13 @@ export const getLikes = async (
   const res = await backendAPI.get(`/resources/${resourceId}/likes/`);
   return res.data;
 };
+
+export const patchLikes = async ({
+  resourceId,
+  userId,
+}: {
+  resourceId: number | string;
+  userId: number | string;
+}) => {
+  await backendAPI.patch(`/resources/${resourceId}/likes/${userId}`);
+};
