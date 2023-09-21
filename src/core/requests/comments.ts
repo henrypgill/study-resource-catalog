@@ -1,4 +1,5 @@
 import { backendAPI } from "./setupAxios";
+import { User } from "./users";
 
 export interface CommentCandidate {
   resource_id: number;
@@ -6,9 +7,10 @@ export interface CommentCandidate {
   content: string;
 }
 
-export interface Comment extends CommentCandidate {
+export interface Comment extends Omit<CommentCandidate, "user_id"> {
   id: number;
-  created_at: number;
+  user: User;
+  created_at: Date;
 }
 
 export const getComments = async (
