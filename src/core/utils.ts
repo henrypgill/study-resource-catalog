@@ -48,5 +48,5 @@ export function sortByCreatedAt(a: Resource, b: Resource) {
 }
 
 export function timeFromNow(time: Date): string {
-  return moment(time).utc(true).fromNow();
+  return moment(time).utc().fromNow();
 }
