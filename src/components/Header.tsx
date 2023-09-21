@@ -17,7 +17,7 @@ function Header({ title }: HeaderProps) {
   return (
     <header>
       <HStack padding={3} justifyContent="space-between">
-        <PageLink page="/">
+        <PageLink page="/" width="0px">
           <Button>HOME</Button>
         </PageLink>
         <AbsoluteCenter axis="horizontal">
