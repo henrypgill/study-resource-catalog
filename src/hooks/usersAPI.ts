@@ -22,7 +22,7 @@ export const useUserStudyList = (userId: number | string) => {
   const query = useQuery({
     queryKey: ["studyList", userId],
     queryFn: () => getUserStudyList(userId),
-    initialData: [],
+    staleTime: Infinity,
   });
 
   const post = useMutation({
