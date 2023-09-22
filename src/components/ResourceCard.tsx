@@ -27,7 +27,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
   const user = useAppSelector(selectCurrentUser);
 
   const {
-    query: { data, isFetching },
+    query: { data },
     post,
   } = useUserStudyList(user?.id ?? -1);
 
@@ -57,7 +57,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
       <Divider />
       <HStack width="100%" justifyContent="space-between" padding={2}>
         <Button
-          isDisabled={isFetching || isOnlist || !user}
+          isDisabled={isOnlist || !user}
           colorScheme="green"
           onClick={handleAdd}
         >
