@@ -24,7 +24,10 @@ interface ResourceCardProps {
 function ResourceStudyCard({ resource }: ResourceCardProps) {
   const user = useAppSelector(selectCurrentUser) as User;
 
-  const { remove } = useUserStudyList(user.id);
+  const {
+    query: { isFetching },
+    remove,
+  } = useUserStudyList(user.id);
 
   const handleRemove = () => {
     remove.mutate({ userId: user.id, resourceId: resource.id });
@@ -43,7 +46,11 @@ function ResourceStudyCard({ resource }: ResourceCardProps) {
       </CardBody>
       <Divider />
       <HStack width="100%" justifyContent="space-between" padding={2}>
-        <Button colorScheme="red" onClick={handleRemove}>
+        <Button
+          isDisabled={isFetching}
+          colorScheme="red"
+          onClick={handleRemove}
+        >
           Remove
         </Button>
         <Text alignSelf="flex-end" color="gray">
