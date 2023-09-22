@@ -33,7 +33,7 @@ export const useTags = () => {
   const query = useQuery({
     queryKey: ["tags"],
     queryFn: getTags,
-    staleTime: Infinity,
+    initialData: [],
   });
 
   return query;
