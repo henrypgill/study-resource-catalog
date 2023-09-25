@@ -2,6 +2,7 @@ import moment from "moment";
 import { Resource } from "./requests/resources";
 
 type searchFilter<T> = (item: T) => boolean;
+type TimestampData = { created_at: Date };
 
 export function searchTitle(subStr: string): searchFilter<Resource> {
   return (content) => {
@@ -43,7 +44,7 @@ export function toTitleCase(str: string) {
   return str.replace(/\b\S/g, (char) => char.toUpperCase());
 }
 
-export function sortByCreatedAt(a: Resource, b: Resource) {
+export function sortByCreatedAt(a: TimestampData, b: TimestampData) {
   return moment(b.created_at).diff(a.created_at);
 }
 
